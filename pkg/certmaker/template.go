@@ -29,7 +29,6 @@ type CertificateTemplate struct {
 	NotBefore        string   `json:"notBefore"`
 	NotAfter         string   `json:"notAfter"`
 	KeyUsage         []string `json:"keyUsage"`
-	ExtKeyUsage      []string `json:"extKeyUsage,omitempty"`
 	BasicConstraints struct {
 		IsCA       bool `json:"isCA"`
 		MaxPathLen int  `json:"maxPathLen"`
@@ -39,6 +38,7 @@ type CertificateTemplate struct {
 		Critical bool   `json:"critical"`
 		Value    string `json:"value"`
 	} `json:"extensions,omitempty"`
+	ExtKeyUsage []string `json:"extKeyUsage,omitempty"`
 }
 
 // ParseTemplate creates an x509 certificate from JSON template
@@ -89,7 +89,7 @@ func ValidateTemplate(tmpl *CertificateTemplate, parent *x509.Certificate) error
 	// Fulcio-specific validation for code signing
 	hasCodeSigning := false
 	for _, usage := range tmpl.ExtKeyUsage {
-		if usage == "codeSign" {
+		if usage == "CodeSigning" {
 			hasCodeSigning = true
 			break
 		}
@@ -159,7 +159,7 @@ func SetKeyUsages(cert *x509.Certificate, usages []string) {
 func SetExtKeyUsages(cert *x509.Certificate, usages []string) {
 	for _, usage := range usages {
 		switch usage {
-		case "codeSign":
+		case "CodeSigning":
 			cert.ExtKeyUsage = append(cert.ExtKeyUsage, x509.ExtKeyUsageCodeSigning)
 		}
 	}

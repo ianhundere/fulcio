@@ -131,7 +131,7 @@ func TestCreateCertificates(t *testing.T) {
 	require.NoError(t, err)
 	t.Cleanup(func() { os.RemoveAll(tmpDir) })
 
-	// Root template (same for both)
+	// root template (same for both)
 	rootContent := `{
 		"subject": {
 			"commonName": "https://blah.com"
@@ -154,7 +154,7 @@ func TestCreateCertificates(t *testing.T) {
 		"notAfter": "2025-01-01T00:00:00Z"
 	}`
 
-	// Fulcio intermediate template
+	// intermediate template
 	intermediateContent := `{
 		"subject": {
 			"commonName": "https://blah.com"

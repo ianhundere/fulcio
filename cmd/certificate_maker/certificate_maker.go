@@ -28,6 +28,8 @@ import (
 	"go.uber.org/zap"
 )
 
+// CLI flags and env vars for config.
+// Supports AWS KMS, Google Cloud KMS, and Azure Key Vault configurations.
 var (
 	logger  *zap.Logger
 	version string
